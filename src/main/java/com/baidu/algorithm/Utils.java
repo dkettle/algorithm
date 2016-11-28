@@ -31,6 +31,28 @@ public class Utils {
         list.set(j, tmp);
     }
 
+    public static void swap(Object[] arr, int i, int j) throws IndexOutOfBoundsException {
+
+        if (arr == null || arr.length == 0) {
+            return;
+        }
+
+        Object o = arr[i];
+        arr[i] = arr[j];
+        arr[j] = o;
+    }
+
+    public static void swap(char[] arr, int i, int j) throws IndexOutOfBoundsException {
+
+        if (arr == null || arr.length == 0) {
+            return;
+        }
+
+        char o = arr[i];
+        arr[i] = arr[j];
+        arr[j] = o;
+    }
+
     // Collections.shuffle
     //
     public static void shuffle(List<Integer> nums) {
