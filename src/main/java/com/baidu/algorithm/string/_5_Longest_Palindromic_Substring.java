@@ -13,24 +13,25 @@ public class _5_Longest_Palindromic_Substring {
     private String init(String s) {
 
         StringBuilder sb = new StringBuilder();
-        sb.append('^');
+        sb.append("^#");
 
         char[] sArr = s.toCharArray();
         for (char c : sArr) {
             sb.append(c).append('#');
         }
 
-        sb.deleteCharAt(sb.length() - 1);
         sb.append('$');
 
         return sb.toString();
     }
 
-    public String longestPalindrome(String s) {
+    public String longestPalindrome(String str) {
 
-        if (s == null || s.length() <= 1) {
-            return s;
+        if (str == null || str.length() <= 1) {
+            return str;
         }
+
+        String s = init(str);
 
         int len = s.length(), maxIdx = 0, maxDist = 1;
         int[] longest = new int[len];
@@ -63,12 +64,12 @@ public class _5_Longest_Palindromic_Substring {
             }
         }
 
-        return s.substring(maxIdx - maxDist + 1, maxIdx + maxDist);
+        return str.substring((maxIdx - maxDist + 1) / 2, (maxIdx + maxDist) / 2 - 1);
     }
 
     public static void main(String[] args) {
         System.out.println(
-                new _5_Longest_Palindromic_Substring().longestPalindrome("cbbd")
+                new _5_Longest_Palindromic_Substring().longestPalindrome("bb")
         );
     }
 }
