@@ -7,6 +7,8 @@ import javax.print.DocFlavor;
 import javax.print.attribute.IntegerSyntax;
 import javax.sound.midi.Soundbank;
 
+import com.baidu.algorithm.Note;
+
 /**
  * _125_Valid_Palindrome
  *
@@ -69,7 +71,7 @@ public class _125_Valid_Palindrome {
     }
 
     // '0' - 'P' == 32
-    // 不可以根据差值判断大小字母
+    @Note(desc = "不可以根据差值判断大小字母")
     public static void main(String[] args) {
         System.out.println('0' - 'P');
         System.out.println('a');

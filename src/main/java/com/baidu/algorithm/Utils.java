@@ -5,6 +5,7 @@ package com.baidu.algorithm;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 /**
  * Utils
@@ -68,5 +69,16 @@ public class Utils {
 
             Utils.swap(nums, i - 1, index);
         }
+    }
+
+    public static ListNode buildListNode(int... nums) {
+
+        ListNode dummy = new ListNode(0), head = dummy;
+        for (int v : nums) {
+            head.next = new ListNode(v);
+            head = head.next;
+        }
+
+        return dummy.next;
     }
 }
