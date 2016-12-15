@@ -24,7 +24,9 @@ public class _447_Number_of_Boomerangs {
 
         for (int i = 0; i < numOfPoints; i++) {
             for (int j = i + 1; j < numOfPoints; j++) {
-                dist[i][j] = dist[j][i] = (int)(Math.pow(dist[i][0] - dist[j][0], 2) + Math.pow(dist[i][1] - dist[j][1], 2));
+                int xDist = points[i][0] - points[j][0];
+                int yDist = points[i][1] - points[j][1];
+                dist[i][j] = dist[j][i] = xDist * xDist + yDist * yDist;
             }
         }
 
@@ -37,10 +39,15 @@ public class _447_Number_of_Boomerangs {
             }
 
             for (int v : mp.values()) {
-                res += v * (v - 1) / 2;
+                res += v * (v - 1);
             }
         }
 
         return res;
+    }
+
+    public static void main(String[] args) {
+        int[][] points = new int[][] {{0, 0}, {1, 0}, {2, 0}};
+        System.out.println(new _447_Number_of_Boomerangs().numberOfBoomerangs(points));
     }
 }
