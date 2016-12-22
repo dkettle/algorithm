@@ -30,7 +30,7 @@ public class _144_Binary_Tree_Preorder_Traversal {
         return res;
     }
 
-    // stack iterate
+    // stack iterate 1
     public List<Integer> preorderTraversal2(TreeNode root) {
 
         List<Integer> res = new ArrayList<>();
@@ -45,6 +45,27 @@ public class _144_Binary_Tree_Preorder_Traversal {
             }
 
             root = stack.pop();
+        }
+
+        return res;
+    }
+
+    // stack iterate 2
+    public List<Integer> preorderTraversal3(TreeNode root) {
+
+        List<Integer> res = new ArrayList<>();
+
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+
+        while (!stack.isEmpty()) {
+
+            TreeNode cur = stack.pop();
+            if (cur != null) {
+                res.add(cur.val);
+                stack.push(cur.right);
+                stack.push(cur.left);
+            }
         }
 
         return res;

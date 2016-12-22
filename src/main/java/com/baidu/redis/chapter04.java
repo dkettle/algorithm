@@ -3,11 +3,10 @@
  */
 package com.baidu.redis;
 
-import java.util.List;
-
-import com.sun.org.apache.xpath.internal.FoundIndex;
+import java.lang.reflect.Method;
 
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.Transaction;
 
 /**
@@ -33,6 +32,7 @@ public class chapter04 {
 
         testListItem(conn);
         testPurchaseItem(conn);
+        testBenchmarkUpdateToken(conn);
     }
 
     public void testListItem(Jedis conn) {
@@ -50,7 +50,7 @@ public class chapter04 {
         assert success;
 
         conn.zrangeWithScores(Z_MARKET, 0, -1).stream()
-                .forEach(x -> System.out.println('\n' + x.getElement() +": " + x.getScore()));
+                .forEach(x -> System.out.println('\n' + x.getElement() + ": " + x.getScore()));
     }
 
     public void testPurchaseItem(Jedis conn) {
@@ -121,5 +121,68 @@ public class chapter04 {
         }
 
         return false;
+    }
+
+    public void testBenchmarkUpdateToken(Jedis conn) {
+        System.out.println("\n--------testBenchmarkUpdateToken-----------");
+        benchmarkUpdateToken(conn, 5);
+    }
+
+    public void benchmarkUpdateToken(Jedis conn, int duration) {
+
+        try {
+            Class[] args = {Jedis.class, String.class, String.class, String.class};
+
+            Method[] methods = {
+                    this.getClass().getDeclaredMethod("updateToken", args),
+                    this.getClass().getDeclaredMethod("updateTokenPipeline", args)
+            };
+
+            for (Method method : methods) {
+                int count = 0;
+                long start = System.currentTimeMillis();
+                long end = start + duration * 1000;
+                while (System.currentTimeMillis() < end) {
+                    count++;
+                    method.invoke(this, conn, "token", "user", "item");
+                }
+
+                long delta = System.currentTimeMillis() - start;
+                System.out.println(method.getName() + ' ' + count + ' ' + delta / 1000 + ' ' + count / (delta / 1000));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getCause());
+        }
+    }
+
+    public void updateToken(Jedis conn, String token, String user, String item) {
+
+        long now = System.currentTimeMillis();
+        conn.hset("login:", token, user);
+        conn.zadd("recent:", now, token);
+
+        if (item != null) {
+            conn.zadd("viewed:" + token, now, item);
+            conn.zremrangeByRank("viewed:" + token, 0, -26);
+            conn.zincrby("viewed:", -1, item);
+        }
+    }
+
+    public void updateTokenPipeline(Jedis conn, String token, String user, String item) {
+
+        long now = System.currentTimeMillis();
+        Pipeline pipe = conn.pipelined();
+
+        pipe.hset("login:", token, user);
+        pipe.zadd("recent:", now, token);
+
+        if (item != null) {
+            pipe.zadd("viewed:" + token, now, item);
+            pipe.zremrangeByRank("viewed:" + token, 0, -26);
+            pipe.zincrby("viewed:", -1, item);
+        }
+
+        pipe.sync();
     }
 }

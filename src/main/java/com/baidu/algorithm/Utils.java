@@ -3,8 +3,11 @@
  */
 package com.baidu.algorithm;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
+import java.util.Stack;
 import java.util.stream.Stream;
 
 /**
@@ -80,5 +83,32 @@ public class Utils {
         }
 
         return dummy.next;
+    }
+
+    // -1 represents null
+    public static TreeNode buildTree(int... num) {
+
+        TreeNode root = buildTreeNode(num[0]);
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        int i = 1;
+        while (!queue.isEmpty() && i + 1 < num.length) {
+            TreeNode cur = queue.poll();
+            cur.left = buildTreeNode(num[i]);
+            cur.right = buildTreeNode(num[i + 1]);
+
+            queue.offer(cur.left);
+            queue.offer(cur.right);
+            i += 2;
+        }
+
+        return root;
+    }
+
+    private static TreeNode buildTreeNode(int v) {
+
+        return v == -1 ? null : new TreeNode(v);
     }
 }
