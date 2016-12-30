@@ -3,7 +3,7 @@
  */
 package com.baidu.algorithm.tree;
 
-import com.baidu.algorithm.TreeNode;
+import com.baidu.algorithm.datastructure.TreeNode;
 
 /**
  * _235_Lowest_Common_Ancestor_of_a_Binary_Search_Tree

@@ -3,8 +3,8 @@
  */
 package com.baidu.algorithm.linkedlist;
 
-import com.baidu.algorithm.ListNode;
-import com.baidu.algorithm.TreeNode;
+import com.baidu.algorithm.datastructure.ListNode;
+import com.baidu.algorithm.datastructure.TreeNode;
 
 /**
  * _109_Convert_Sorted_List_to_Binary_Search_Tree

@@ -6,7 +6,7 @@ package com.baidu.algorithm.linkedlist;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.baidu.algorithm.RandomListNode;
+import com.baidu.algorithm.datastructure.RandomListNode;
 
 /**
  * _138_Copy_List_with_Random_Pointer

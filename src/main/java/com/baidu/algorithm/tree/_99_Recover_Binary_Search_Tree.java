@@ -5,7 +5,7 @@ package com.baidu.algorithm.tree;
 
 import java.util.Stack;
 
-import com.baidu.algorithm.TreeNode;
+import com.baidu.algorithm.datastructure.TreeNode;
 
 /**
  * _99_Recover_Binary_Search_Tree

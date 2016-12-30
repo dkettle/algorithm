@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.baidu.algorithm.Note;
+import com.baidu.algorithm.annotation.Note;
 
 /**
  * _350_Intersection_of_Two_Arrays_II

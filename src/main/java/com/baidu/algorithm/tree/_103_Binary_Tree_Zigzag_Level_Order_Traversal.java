@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import com.baidu.algorithm.TreeNode;
+import com.baidu.algorithm.datastructure.TreeNode;
 
 /**
  * _103_Binary_Tree_Zigzag_Level_Order_Traversal

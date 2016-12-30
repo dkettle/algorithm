@@ -3,8 +3,8 @@
  */
 package com.baidu.algorithm.linkedlist;
 
-import com.baidu.algorithm.ListNode;
-import com.baidu.algorithm.Utils;
+import com.baidu.algorithm.datastructure.ListNode;
+import com.baidu.algorithm.util.Utils;
 
 /**
  * _82_Remove_Duplicates_from_Sorted_List_II

@@ -3,17 +3,29 @@
  */
 package com.baidu.redis;
 
+import java.io.File;
+import java.io.FileReader;
 import java.text.Collator;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.TimeZone;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+import org.apache.tools.ant.taskdefs.optional.depend.constantpool.IntegerCPInfo;
+
+import com.google.gson.Gson;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.Transaction;
 import redis.clients.jedis.Tuple;
+import redis.clients.jedis.exceptions.JedisException;
 
 /**
  * chapter05
@@ -30,11 +42,11 @@ public class chapter05 {
         ISO_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws Exception {
         new chapter05().run();
     }
 
-    public void run() throws InterruptedException {
+    public void run() throws Exception {
 
         Jedis conn = new Jedis("localhost");
         conn.select(15);
@@ -43,6 +55,8 @@ public class chapter05 {
 
         testLogRecent(conn);
         testLogCommon(conn);
+
+        testIpLookUp(conn);
     }
 
     public void testLogRecent(Jedis conn) {
@@ -126,5 +140,137 @@ public class chapter05 {
                 return;
             }
         }
+    }
+
+    public void testIpLookUp(Jedis conn) throws Exception {
+
+        System.out.println("\n----------testIpLookUp---------");
+
+        String cwd = System.getProperty("user.dir");
+
+        File blocks = new File(cwd + "/GeoLiteCity-Blocks.csv");
+        if (!blocks.exists()) {
+            System.out.println("GeoLiteCity-Blocks.csv not exist in: " + cwd);
+        }
+
+        File locations = new File(cwd + "/GeoLiteCity-Location.csv");
+        if (!locations.exists()) {
+            System.out.println("GeoLiteCity-Location.csv not exists in: " + cwd);
+        }
+
+        importIpsToRedis(conn, blocks);
+        System.out.println("Loaded ranges into Redis: " + conn.zcard("ip2cityid:"));
+
+        importCitysToRedis(conn, locations);
+        System.out.println("Loaded city lookups into Redis: " + conn.hlen("cityid2city:"));
+
+        for (int i = 0; i < 5; i++) {
+            String ip = randomOctet(255) + "." +
+                                randomOctet(256) + "." +
+                                randomOctet(256) + "." +
+                                randomOctet(256);
+
+            System.out.println(Arrays.toString(findCityByIp(conn, ip)));
+        }
+    }
+
+    public void importIpsToRedis(Jedis conn, File blocks) {
+
+        FileReader reader = null;
+
+        try {
+            reader = new FileReader(blocks);
+            CSVParser parser = CSVFormat.DEFAULT.parse(reader);
+
+            int count = 0, index = 2;
+            List<CSVRecord> records = parser.getRecords();
+
+            while (index < records.size()) {
+
+                String startIp = records.get(index).get(0);
+                int score = 0;
+
+                if (startIp.indexOf('.') != -1) {
+                    score = ipToScore(startIp);
+                } else {
+                    score = Integer.parseInt(startIp, 10);
+                }
+
+                String cityId = records.get(index).get(2) + "_" + count;
+                conn.zadd("ip2cityid:", score, cityId);
+                count++;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+
+            try {
+                reader.close();
+            } catch (Exception e) {
+                System.out.println(e.getCause());
+            }
+        }
+    }
+
+    public int ipToScore(String ip) throws Exception {
+
+        int score = 0;
+        for (String v : ip.split("\\.")) {
+            score = (score << 8) + Integer.parseInt(v, 10);
+        }
+
+        return score;
+    }
+
+    public void importCitysToRedis(Jedis conn, File file) {
+
+        Gson gson = new Gson();
+        FileReader reader = null;
+
+        try {
+            reader = new FileReader(file);
+            CSVParser parser = CSVFormat.DEFAULT.parse(reader);
+
+            int index = 2;
+            List<CSVRecord> records = parser.getRecords();
+            while (index < records.size()) {
+
+                String cityId = records.get(index).get(0);
+                String country = records.get(index).get(1);
+                String latitude = records.get(index).get(5);
+                String longitude = records.get(index).get(6);
+
+                String json = gson.toJson(Arrays.asList(cityId, country, latitude, longitude));
+                conn.hset("cityid2city:", cityId, json);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                reader.close();
+            } catch (Exception e) {
+                System.out.println(e.getCause());
+            }
+        }
+    }
+
+    public String randomOctet(int max) {
+
+        return String.valueOf((int) Math.random() * max);
+    }
+
+    public String[] findCityByIp(Jedis conn, String ip) throws Exception {
+
+        int score = ipToScore(ip);
+
+        Set<String> results = conn.zrevrangeByScore("ip2cityid:", score, 0, 0, 1);
+        if (results.size() == 0) {
+            return null;
+        }
+
+        String cityId = results.iterator().next();
+        cityId = cityId.substring(0, cityId.indexOf('_'));
+
+        return new Gson().fromJson(conn.hget("cityid2city:", cityId), String[].class);
     }
 }

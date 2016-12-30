@@ -3,11 +3,7 @@
  */
 package com.baidu.algorithm.string;
 
-import javax.print.DocFlavor;
-import javax.print.attribute.IntegerSyntax;
-import javax.sound.midi.Soundbank;
-
-import com.baidu.algorithm.Note;
+import com.baidu.algorithm.annotation.Note;
 
 /**
  * _125_Valid_Palindrome

@@ -3,10 +3,6 @@
  */
 package com.baidu.algorithm.string;
 
-import java.util.Collections;
-
-import com.baidu.algorithm.Utils;
-
 /**
  * _344_Reverse_String
  *

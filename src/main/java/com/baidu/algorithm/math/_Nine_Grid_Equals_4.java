@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baidu.algorithm.Classic;
+import com.baidu.algorithm.annotation.Classic;
 
 /**
  * _Nine_Grid_Equals_4

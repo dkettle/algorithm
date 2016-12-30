@@ -9,7 +9,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.baidu.algorithm.TreeNode;
+import com.baidu.algorithm.datastructure.TreeNode;
 
 /**
  * _107_Binary_Tree_Level_Order_Traversal_II

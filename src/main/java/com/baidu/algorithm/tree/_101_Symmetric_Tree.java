@@ -3,7 +3,7 @@
  */
 package com.baidu.algorithm.tree;
 
-import com.baidu.algorithm.TreeNode;
+import com.baidu.algorithm.datastructure.TreeNode;
 
 /**
  * _101_Symmetric_Tree

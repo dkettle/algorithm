@@ -3,7 +3,7 @@
  */
 package com.baidu.algorithm.tree;
 
-import com.baidu.algorithm.TreeNode;
+import com.baidu.algorithm.datastructure.TreeNode;
 
 /**
  * _129_Sum_Root_to_Leaf_Numbers

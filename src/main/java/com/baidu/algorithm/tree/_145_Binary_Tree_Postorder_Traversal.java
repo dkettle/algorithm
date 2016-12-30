@@ -8,9 +8,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-import com.baidu.algorithm.Note;
-import com.baidu.algorithm.TreeNode;
-import com.baidu.algorithm.Utils;
+import com.baidu.algorithm.annotation.Note;
+import com.baidu.algorithm.datastructure.TreeNode;
+import com.baidu.algorithm.util.Utils;
 
 /**
  * _145_Binary_Tree_Postorder_Traversal

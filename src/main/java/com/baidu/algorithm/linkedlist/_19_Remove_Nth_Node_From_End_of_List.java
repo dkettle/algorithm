@@ -3,7 +3,7 @@
  */
 package com.baidu.algorithm.linkedlist;
 
-import com.baidu.algorithm.ListNode;
+import com.baidu.algorithm.datastructure.ListNode;
 
 /**
  * _19_Remove_Nth_Node_From_End_of_List

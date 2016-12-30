@@ -6,7 +6,7 @@ package com.baidu.algorithm.tree;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.baidu.algorithm.TreeNode;
+import com.baidu.algorithm.datastructure.TreeNode;
 
 /**
  * _437_Path_Sum_III

@@ -7,7 +7,7 @@ import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.baidu.algorithm.Note;
+import com.baidu.algorithm.annotation.Note;
 
 /**
  * _149_Max_Points_on_a_Line

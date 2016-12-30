@@ -6,8 +6,6 @@ package com.baidu.algorithm.sort;
 import java.util.Collections;
 import java.util.List;
 
-import com.baidu.algorithm.Utils;
-
 /**
  * QuickSort
  *

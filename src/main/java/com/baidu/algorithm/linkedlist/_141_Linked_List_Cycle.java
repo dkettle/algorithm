@@ -3,7 +3,7 @@
  */
 package com.baidu.algorithm.linkedlist;
 
-import com.baidu.algorithm.ListNode;
+import com.baidu.algorithm.datastructure.ListNode;
 
 /**
  * _141_Linked_List_Cycle

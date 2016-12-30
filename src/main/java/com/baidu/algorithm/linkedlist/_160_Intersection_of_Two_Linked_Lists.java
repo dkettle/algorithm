@@ -6,7 +6,7 @@ package com.baidu.algorithm.linkedlist;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.baidu.algorithm.ListNode;
+import com.baidu.algorithm.datastructure.ListNode;
 
 /**
  * _160_Intersection_of_Two_Linked_Lists

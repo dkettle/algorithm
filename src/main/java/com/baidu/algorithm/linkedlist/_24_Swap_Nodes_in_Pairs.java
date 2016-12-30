@@ -3,9 +3,9 @@
  */
 package com.baidu.algorithm.linkedlist;
 
-import com.baidu.algorithm.ListNode;
-import com.baidu.algorithm.Note;
-import com.baidu.algorithm.Utils;
+import com.baidu.algorithm.datastructure.ListNode;
+import com.baidu.algorithm.annotation.Note;
+import com.baidu.algorithm.util.Utils;
 
 /**
  * _24_Swap_Nodes_in_Pairs

@@ -6,7 +6,7 @@ package com.baidu.algorithm.hashtable;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.baidu.algorithm.Note;
+import com.baidu.algorithm.annotation.Note;
 
 /**
  * _290_Word_Pattern

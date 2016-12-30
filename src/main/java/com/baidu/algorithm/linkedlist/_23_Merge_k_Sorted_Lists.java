@@ -5,8 +5,8 @@ package com.baidu.algorithm.linkedlist;
 
 import java.util.PriorityQueue;
 
-import com.baidu.algorithm.ListNode;
-import com.baidu.algorithm.Note;
+import com.baidu.algorithm.datastructure.ListNode;
+import com.baidu.algorithm.annotation.Note;
 
 /**
  * _23_Merge_k_Sorted_Lists

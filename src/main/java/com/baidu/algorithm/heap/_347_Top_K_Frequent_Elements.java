@@ -11,7 +11,7 @@ import java.util.PriorityQueue;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
 
-import com.baidu.algorithm.Note;
+import com.baidu.algorithm.annotation.Note;
 
 /**
  * _347_Top_K_Frequent_Elements

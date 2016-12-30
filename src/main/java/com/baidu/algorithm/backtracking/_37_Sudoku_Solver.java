@@ -5,7 +5,7 @@ package com.baidu.algorithm.backtracking;
 
 import java.util.Arrays;
 
-import com.baidu.algorithm.Note;
+import com.baidu.algorithm.annotation.Note;
 
 /**
  * _37_Sudoku_Solver

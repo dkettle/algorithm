@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import com.baidu.algorithm.Note;
-import com.baidu.algorithm.TreeNode;
+import com.baidu.algorithm.annotation.Note;
+import com.baidu.algorithm.datastructure.TreeNode;
 
 /**
  * _94_Binary_Tree_Inorder_Traversal

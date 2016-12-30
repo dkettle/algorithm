@@ -5,8 +5,6 @@ package com.baidu.algorithm.dp;
 
 import java.util.Stack;
 
-import com.baidu.algorithm.Pair;
-
 /**
  * _85_Maximal_Rectangle
  *

@@ -10,9 +10,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.baidu.algorithm.Classic;
-import com.baidu.algorithm.Note;
-import com.baidu.algorithm.TreeNode;
+import com.baidu.algorithm.annotation.Classic;
+import com.baidu.algorithm.annotation.Note;
+import com.baidu.algorithm.datastructure.TreeNode;
 
 /**
  * _236_Lowest_Common_Ancestor_of_a_Binary_Tree
