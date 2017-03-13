@@ -15,26 +15,41 @@ public class _13_Roman_to_Integer {
 
     public int romanToInt(String s) {
 
-        int[] values = {1000,500,100,50,10,5,1};
-        char[] strs = {'M','D', 'C','L','X','V','I'};
-
-        Map<Character, Integer> map = new HashMap<>();
-        for (int i = 0; i < values.length; i++) {
-            map.put(strs[i], values[i]);
-        }
-
-        int res = 0;
+        int nums[] = new int[s.length()];
         for (int i = 0; i < s.length(); i++) {
-            int val = map.get(s.charAt(i));
-            if (i < s.length() - 1 && map.get(s.charAt(i)) < map.get(s.charAt(i + 1))) {
-                res -= val;
-            }
-            else {
-                res += val;
+            switch (s.charAt(i)) {
+                case 'M':
+                    nums[i] = 1000;
+                    break;
+                case 'D':
+                    nums[i] = 500;
+                    break;
+                case 'C':
+                    nums[i] = 100;
+                    break;
+                case 'L':
+                    nums[i] = 50;
+                    break;
+                case 'X':
+                    nums[i] = 10;
+                    break;
+                case 'V':
+                    nums[i] = 5;
+                    break;
+                case 'I':
+                    nums[i] = 1;
+                    break;
             }
         }
-        
-        return res;
+        int sum = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (nums[i] < nums[i + 1]) {
+                sum -= nums[i];
+            } else {
+                sum += nums[i];
+            }
+        }
+        return sum + nums[nums.length - 1];
     }
 
     public static void main(String[] args) {
