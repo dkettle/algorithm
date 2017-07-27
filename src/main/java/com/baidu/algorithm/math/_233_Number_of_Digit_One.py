@@ -8,7 +8,15 @@ class Solution(object):
         while n >= m:
             a, b = divmod(n, m)
 
-            res += (a + 8) / 10 * m + (a % 10 == 1) * (b + 1)
+            c = a % 10
+            a /= 10
+
+            if c == 0:
+                res += a * m
+            elif c == 1:
+                res += a * m + b + 1
+            else:
+                res += (a + 1) * m
 
             m *= 10
 
