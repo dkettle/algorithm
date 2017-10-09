@@ -3,8 +3,6 @@
  */
 package com.baidu.algorithm.string;
 
-import java.util.Arrays;
-
 /**
  * _14_Longest_Common_Prefix
  *

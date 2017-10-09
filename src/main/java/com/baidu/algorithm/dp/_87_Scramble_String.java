@@ -23,7 +23,7 @@ public class _87_Scramble_String {
             for (int i = 0; i + k <= n; i++) {
                 for (int j = 0; j + k <= n; j++) {
                     if (k == 1) {
-                        dp[i][j][k] = s1.charAt(i) == s2.charAt(j) ? true : false;
+                        dp[i][j][k] = s1.charAt(i) == s2.charAt(j);
                     }
                     else {
                         for (int t = 1; t < k; t++) {

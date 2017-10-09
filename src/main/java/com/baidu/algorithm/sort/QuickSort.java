@@ -20,17 +20,13 @@ public class QuickSort implements Sort {
         }
 
         int pivot = nums.get(left);
-        int i = left, j = i + 1, k = right;
+        int j = left + 1, k = right;
 
-        // 观察到i, j总是同步变化, 其实只需要一个变量就可以了
-        //
         for ( ; j <= k; ) {
 
             int current = nums.get(j);
 
             if (current <= pivot) {
-                nums.set(i, current);
-                i++;
                 j++;
             } else {
                 Collections.swap(nums, j, k);
@@ -38,7 +34,7 @@ public class QuickSort implements Sort {
             }
         }
 
-        nums.set(k, pivot);
+        Collections.swap(nums, left, k);
 
         sort(nums, left, k - 1);
         sort(nums, k + 1, right);
