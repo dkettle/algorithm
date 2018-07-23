@@ -49,5 +49,4 @@ public class QuickSort implements Sort {
 
         sort(nums, 0, nums.size() - 1);
     }
-
 }
