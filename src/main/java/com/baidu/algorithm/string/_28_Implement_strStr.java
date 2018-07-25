@@ -14,14 +14,21 @@ import java.util.stream.IntStream;
  */
 public class _28_Implement_strStr {
 
-    private List<Integer> getNext(String str) {
+    public static void main(String[] args) {
 
-        int len = str.length();
+        String s = "aabaaabaaac";
+        String t = "aabaaac";
+
+        new _28_Implement_strStr().strStr(s, t);
+    }
+
+    private int[] getNext(String t) {
+        int len = t.length();
         int[] next = new int[len + 1];
 
         int i = 1, j = 0;
         while (i < len) {
-            if (str.charAt(i) == str.charAt(j)) {
+            if (t.charAt(i) == t.charAt(j)) {
                 next[i + 1] = j + 1;
                 i++;
                 j++;
@@ -34,46 +41,33 @@ public class _28_Implement_strStr {
             }
         }
 
-        return IntStream.of(next).boxed().collect(Collectors.toList());
+        return next;
     }
 
-    // kmp
-    public int strStr(String s, String t) {
-
-        int sLen = s.length(), tLen = t.length();
-        if (sLen < tLen) {
+    public int strStr(String haystack, String needle) {
+        int hLen = haystack.length(), nLen = needle.length();
+        if (hLen < nLen) {
             return -1;
         }
-        else if (tLen == 0) {
+        else if (nLen == 0) {
             return 0;
         }
 
-        List<Integer> next = getNext(t);
+        int[] next = getNext(needle);
         int i = 0, j = 0;
-        while (j < tLen && i < sLen) {
-            if (s.charAt(i) == t.charAt(j)) {
+        while (i < hLen && j < nLen) {
+            if (haystack.charAt(i) == needle.charAt(j)) {
                 i++;
                 j++;
-                if (j == tLen) {
-                    return i - tLen;
-                }
             }
             else if (j > 0) {
-                j = next.get(j);
+                j = next[j];
             }
             else {
                 i++;
             }
         }
 
-        return -1;
-    }
-
-    public static void main(String[] args) {
-
-        String s = "aabaaabaaac";
-        String t = "aabaaac";
-
-        new _28_Implement_strStr().strStr(s, t);
+        return j == nLen ? i - nLen : -1;
     }
 }

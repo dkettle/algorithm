@@ -11,20 +11,20 @@ package com.baidu.algorithm.twopointer;
 public class _11_Container_With_Most_Water {
 
     public int maxArea(int[] height) {
+        if (height == null || height.length < 2) {
+            return 0;
+        }
 
-        int i = 0, j = height.length - 1;
-        int res = 0;
-
-        while (i < j) {
-            res = Math.max(res, (j - i) * Math.min(height[i], height[j]));
+        int maxArea = 0;
+        for (int i = 0, j = height.length - 1; i < j; ) {
+            maxArea = Math.max(Math.min(height[i], height[j]) * (j - i), maxArea);
             if (height[i] > height[j]) {
                 j--;
-            }
-            else {
+            } else {
                 i++;
             }
         }
 
-        return res;
+        return maxArea;
     }
 }

@@ -27,8 +27,7 @@ public class _14_Longest_Common_Prefix {
             }
             if (j == strs.length) {
                 sb.append(strs[0].charAt(i));
-            }
-            else {
+            } else {
                 break;
             }
         }
@@ -37,7 +36,7 @@ public class _14_Longest_Common_Prefix {
     }
 
     public static void main(String[] args) {
-        new _14_Longest_Common_Prefix().longestCommonPrefix(new String[]{"abab","aba","abc"});
+        new _14_Longest_Common_Prefix().longestCommonPrefix(new String[]{"abab", "aba", "abc"});
 
         StringBuilder sb = new StringBuilder();
         String str = sb.toString();

@@ -11,45 +11,40 @@ package com.baidu.algorithm.math;
 public class _8_String_to_Integer {
 
     public int myAtoi(String str) {
-
-        str = str.trim();
-        if (str.length() == 0) {
+        if (str == null) {
             return 0;
         }
 
-        int index = 0, sign = 1;
-        if (str.charAt(index) == '+' || str.charAt(index) == '-') {
-            if (str.charAt(index) == '-') {
-                sign = -1;
-            }
-
-            index++;
-            if (index == str.length()) {
-                return 0;
-            }
+        str = str.trim();
+        if (str.isEmpty()) {
+            return 0;
         }
 
-        long res = 0;
-        while (index < str.length()) {
-            char c = str.charAt(index);
-            if (Character.isDigit(c)) {
-                res = res * 10 + c - '0';
+        int sign = 1, i = 0;
+        long rs = 0;
+        if (str.charAt(i) == '-' || str.charAt(i) == '+') {
+            if (str.charAt(i) == '-') {
+                sign = -1;
             }
-            else {
+            i++;
+        }
+
+        for (; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (Character.isDigit(c)) {
+                rs = rs * 10 + (c - '0');
+            } else {
                 break;
             }
 
-            index++;
-
-            if (sign * res > Integer.MAX_VALUE) {
+            if (sign * rs > Integer.MAX_VALUE) {
                 return Integer.MAX_VALUE;
-            }
-            else if (sign * res < Integer.MIN_VALUE) {
+            } else if (sign * rs < Integer.MIN_VALUE) {
                 return Integer.MIN_VALUE;
             }
         }
 
-        return (int) (sign * res);
+        return (int) (rs * sign);
     }
 
     public static void main(String[] args) {

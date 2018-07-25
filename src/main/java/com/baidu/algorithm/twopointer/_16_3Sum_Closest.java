@@ -14,29 +14,27 @@ import java.util.Collections;
 public class _16_3Sum_Closest {
 
     public int threeSumClosest(int[] nums, int target) {
+        if (nums == null || nums.length < 3) {
+            return 0;
+        }
 
+        int res = 0, diff = Integer.MAX_VALUE;
         Arrays.sort(nums);
 
-        int res = 0, diff = Integer.MAX_VALUE, n = nums.length;
-        for (int i = 0; i < n - 2; i++) {
-
-            if (i > 0 && nums[i] == nums[i - 1]) {
-                continue;
-            }
-
-            int j = i + 1, k = n - 1;
+        for (int i = 0; i < nums.length; i++) {
+            int j = i + 1, k = nums.length - 1;
             while (j < k) {
-                int sum = nums[i] + nums[j] + nums[k];
-                if (Math.abs(sum - target) < diff) {
-                    res = sum;
-                    diff = Math.abs(sum - target);
+                int tmp = nums[i] + nums[j] + nums[k];
 
-                    if (diff == 0) {
-                        return res;
-                    }
+                if (Math.abs(tmp - target) < diff) {
+                    diff = Math.abs(tmp - target);
+                    res = tmp;
                 }
 
-                if (sum > target) {
+                if (tmp == target) {
+                    return res;
+                }
+                else if (tmp > target) {
                     k--;
                 }
                 else {

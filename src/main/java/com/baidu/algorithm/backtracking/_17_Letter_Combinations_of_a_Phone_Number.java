@@ -21,7 +21,7 @@ public class _17_Letter_Combinations_of_a_Phone_Number {
             return;
         }
 
-        int idx = Integer.parseInt(String.valueOf(digits.charAt(index)));
+        int idx = digits.charAt(index) - '2';
         String letter = letters[idx - 2];
 
         for (char ch : letter.toCharArray()) {

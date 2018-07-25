@@ -10,20 +10,18 @@ package com.baidu.algorithm.math;
  */
 public class _7_Reverse_Integer {
 
+
     public int reverse(int x) {
-
-        long a = (long) x;
-
-        long rev = 0;
-        while (a != 0) {
-            rev = rev * 10 + a % 10;
-            a /= 10;
+        long rs = 0;
+        while (x != 0) {
+            rs = rs * 10 + x % 10;
+            x /= 10;
         }
 
-        if (rev > Integer.MAX_VALUE || rev < Integer.MIN_VALUE) {
+        if (rs > Integer.MAX_VALUE || rs < Integer.MIN_VALUE) {
             return 0;
         }
 
-        return (int) rev;
+        return (int) rs;
     }
 }
