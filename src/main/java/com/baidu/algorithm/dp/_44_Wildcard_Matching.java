@@ -38,8 +38,7 @@ public class _44_Wildcard_Matching {
                 char pc = p.charAt(i), sc = s.charAt(j);
                 if (pc == sc || pc == '?') {
                     dp[i + 1][j + 1] = dp[i][j];
-                }
-                else if (pc == '*') {
+                } else if (pc == '*') {
                     int k = 0;
                     while (k <= sLen && !dp[i][k]) {
                         k++;

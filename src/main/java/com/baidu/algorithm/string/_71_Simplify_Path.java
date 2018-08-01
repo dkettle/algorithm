@@ -3,6 +3,8 @@
  */
 package com.baidu.algorithm.string;
 
+import jdk.nashorn.internal.ir.IfNode;
+
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Stack;
@@ -15,36 +17,35 @@ import java.util.Stack;
 public class _71_Simplify_Path {
 
     public String simplifyPath(String path) {
-
-        if (path == null || path.length() == 0) {
+        if (path == null || path.isEmpty()) {
             return "";
         }
 
-        Deque<String> deque = new LinkedList<>();
+        Stack<String> stack = new Stack<>();
         String[] paths = path.split("/");
 
         for (String dir : paths) {
-            if (dir.length() > 0) {
-                if (dir.equals("..")) {
-                    if (!deque.isEmpty()) {
-                        deque.pop();
-                    }
-                }
-                else if (dir.equals(".")) {
+            switch (dir) {
+                case ".":
                     continue;
-                }
-                else {
-                    deque.push(dir);
-                }
+                case "":
+                    continue;
+                case "..":
+                    if (!stack.isEmpty()) {
+                        stack.pop();
+                    }
+                    break;
+                default:
+                    stack.push(dir);
             }
         }
 
-        StringBuilder sb = new StringBuilder();
-        while (!deque.isEmpty()) {
-            sb.append("/").append(deque.pollLast());
+        String res = "";
+        while (!stack.isEmpty()) {
+            res = "/" + stack.pop() + res;
         }
 
-        return sb.length() == 0 ? "/" : sb.toString();
+        return res.isEmpty() ? "/" : res;
     }
 
     public static void main(String[] args) {

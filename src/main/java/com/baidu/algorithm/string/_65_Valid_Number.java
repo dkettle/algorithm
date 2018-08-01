@@ -11,34 +11,30 @@ package com.baidu.algorithm.string;
 public class _65_Valid_Number {
 
     public boolean isNumber(String s) {
-
         s = s.trim();
-        boolean sign = false, num = false, exp = false, dot = false;
+        boolean sign = false, num = false, dot = false, exp = false;
         for (char c : s.toCharArray()) {
-            if (c == '+' || c == '-') {
-                if (sign || num || (!exp && dot)) {
+            if (Character.isDigit(c)) {
+                num = true;
+            } else if (c == '+' || c == '-') {
+                if (sign || num || dot) {
                     return false;
                 }
                 sign = true;
-            }
-            else if (c >= '0' && c <= '9') {
-                num = true;
-            }
-            else if (c == 'e' || c == 'E') {
-                if (!num || exp) {
-                    return false;
-                }
-                exp = true;
-                num = false;
-                sign = false;
-            }
-            else if (c == '.') {
+            } else if (c == '.') {
                 if (dot || exp) {
                     return false;
                 }
                 dot = true;
-            }
-            else {
+            } else if (c == 'e' || c == 'E') {
+                if (!num || exp) {
+                    return false;
+                }
+                exp = true;
+                sign = false;
+                num = false;
+                dot = false;
+            } else {
                 return false;
             }
         }

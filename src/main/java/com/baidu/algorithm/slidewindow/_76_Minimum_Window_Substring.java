@@ -10,43 +10,40 @@ package com.baidu.algorithm.slidewindow;
  */
 public class _76_Minimum_Window_Substring {
 
-    public String minWindow(String s, String t) {
+    public static void main(String[] args) {
+        System.out.println(new _76_Minimum_Window_Substring().minWindow("ab", "b"));
+    }
 
-        if (s == null || t == null || s.length() < t.length()) {
+    public String minWindow(String s, String t) {
+        if (s == null || t == null || t.isEmpty() || s.length() < t.length()) {
             return "";
         }
 
         int[] tCnt = new int[256];
-
         for (char c : t.toCharArray()) {
             tCnt[c]++;
         }
 
         int start = 0, minLen = Integer.MAX_VALUE, count = 0;
-        for (int i = 0, j = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
+        for (int i = 0, j = 0; j < s.length(); j++) {
+            char c = s.charAt(j);
             if (tCnt[c]-- > 0) {
                 count++;
             }
 
             while (count == t.length()) {
-                if (i - j + 1 < minLen) {
-                    minLen = i - j + 1;
-                    start = j;
-                }
-
-                if (tCnt[s.charAt(j)]++ >= 0) { //只有t中字符才有可能>=0, 否则必然小于零
+                if (tCnt[s.charAt(i)]++ >= 0) {
                     count--;
-                }
 
-                j++;
+                    if (j - i + 1 < minLen) {
+                        start = i;
+                        minLen = j - i + 1;
+                    }
+                }
+                i++;
             }
         }
 
         return minLen < Integer.MAX_VALUE ? s.substring(start, start + minLen) : "";
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new _76_Minimum_Window_Substring().minWindow("ab", "b"));
     }
 }

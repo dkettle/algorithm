@@ -19,10 +19,6 @@ public class _78_Subsets {
         res.add(new ArrayList<>(oneRes));
 
         for (int i = index; i < nums.length; i++) {
-            if (i > index && nums[i] == nums[i - 1]) {
-                continue;
-            }
-
             oneRes.add(nums[i]);
             dfs(res, oneRes, nums, i + 1);
             oneRes.remove(oneRes.size() - 1);
@@ -35,8 +31,6 @@ public class _78_Subsets {
         if (nums == null || nums.length == 0) {
             return res;
         }
-
-        Arrays.sort(nums);
 
         dfs(res, new ArrayList<>(), nums, 0);
 

@@ -5,7 +5,6 @@ package com.baidu.algorithm.sort;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -14,36 +13,6 @@ import java.util.List;
  * @author xuhaoran01
  */
 public class _56_Merge_Intervals {
-
-    public List<Interval> merge(List<Interval> intervals) {
-
-
-        if (intervals == null || intervals.size() == 0) {
-            return intervals;
-        }
-
-        List<Interval> res = new ArrayList<>();
-
-        Collections.sort(intervals, (x, y) -> x.start - y.start);
-
-        int i = 1, len = intervals.size();
-        Interval interval = intervals.get(0);
-
-        while (i < len) {
-            if (intervals.get(i).start <= interval.end) {
-                interval = new Interval(interval.start, Math.max(interval.end, intervals.get(i).end));
-            }
-            else {
-                res.add(interval);
-                interval = intervals.get(i);
-            }
-            i++;
-        }
-
-        res.add(interval);
-
-        return res;
-    }
 
     public static void main(String[] args) {
         Interval i1 = new _56_Merge_Intervals().new Interval(1, 3);
@@ -68,5 +37,27 @@ public class _56_Merge_Intervals {
             start = s;
             end = e;
         }
+    }
+
+    public List<Interval> merge(List<Interval> intervals) {
+        List<Interval> res = new ArrayList<>();
+        if (intervals == null || intervals.isEmpty()) {
+            return res;
+        }
+
+        intervals.sort((x, y) -> x.start - y.start);
+        int i = 0, n = intervals.size();
+        while (i < n) {
+            int j = i + 1, maxEnd = intervals.get(i).end;
+            while (j < n && intervals.get(j).start <= maxEnd) {
+                maxEnd = Math.max(maxEnd, intervals.get(j).end);
+                j++;
+            }
+
+            res.add(new Interval(intervals.get(i).start, maxEnd));
+            i = j;
+        }
+
+        return res;
     }
 }

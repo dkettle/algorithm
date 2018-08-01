@@ -44,6 +44,7 @@ public class _149_Max_Points_on_a_Line {
             for (Map.Entry<Double, Integer> entry : mp.entrySet()) {
                 res = Math.max(res, entry.getValue() + dup);
             }
+
         }
 
         return res;

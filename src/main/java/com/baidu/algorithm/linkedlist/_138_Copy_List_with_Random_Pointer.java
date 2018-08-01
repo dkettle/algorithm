@@ -23,26 +23,27 @@ public class _138_Copy_List_with_Random_Pointer {
 
         // origin, copy
         Map<RandomListNode, RandomListNode> map = new HashMap<>();
-        RandomListNode dummy = new RandomListNode(0), tail = dummy, current = head;
+        RandomListNode current = head;
 
         while (current != null) {
             map.put(current, new RandomListNode(current.label));
             current = current.next;
         }
 
-        while (head != null) {
+        current = head;
+        while (current != null) {
 
-            if (head.next != null) {
-                map.get(head).next = map.get(head.next);
+            if (current.next != null) {
+                map.get(current).next = map.get(current.next);
             }
-            if (head.random != null) {
-                map.get(head).random = map.get(head.random);
+            if (current.random != null) {
+                map.get(current).random = map.get(current.random);
             }
 
-            head = head.next;
+            current = current.next;
         }
 
-        return dummy.next;
+        return map.get(head);
     }
 
     public RandomListNode copyRandomList(RandomListNode head) {

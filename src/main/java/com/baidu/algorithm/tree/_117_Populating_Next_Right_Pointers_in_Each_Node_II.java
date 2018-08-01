@@ -14,43 +14,32 @@ import com.baidu.algorithm.util.Utils;
 public class _117_Populating_Next_Right_Pointers_in_Each_Node_II {
 
     public void connect1(TreeLinkNode root) {
-
-        TreeLinkNode cur = root, next = null;
-
-        while (cur != null) {
-
-            while (next == null && cur != null) {
-                if (cur.left != null) {
-                    next = cur.left;
-                } else if (cur.right != null) {
-                    next = cur.right;
-                } else {
-                    cur = cur.next;
-                }
+        TreeLinkNode cur = root;
+        while(cur != null) {
+            while(cur != null && cur.left == null && cur.right == null) {
+                cur = cur.next;
             }
 
-            if (next == null) {
+            if(cur == null) {
                 return;
             }
 
-            TreeLinkNode node = next;
-            while (cur != null) {
-
-                if (cur.left != null && cur.left != node) {
-                    node.next = cur.left;
-                    node = node.next;
+            TreeLinkNode next = cur.left == null ? cur.right : cur.left, prev = next;
+            while(cur != null) {
+                if(cur.left != null && cur.left != prev) {
+                    prev.next = cur.left;
+                    prev = prev.next;
                 }
 
-                if (cur.right != null && cur.right != node) {
-                    node.next = cur.right;
-                    node = node.next;
+                if(cur.right != null && cur.right != prev) {
+                    prev.next = cur.right;
+                    prev = prev.next;
                 }
 
                 cur = cur.next;
             }
 
             cur = next;
-            next = null;
         }
     }
 

@@ -12,36 +12,30 @@ import java.util.Arrays;
  */
 public class _79_Word_Search {
 
-    private boolean dfs(char[][] board, boolean[][] visited, String word, int x, int y, int pos) {
-
+    private boolean dfs(char[][] board, int px, int py, String word, int pos, boolean[][] visited) {
         if (pos == word.length()) {
             return true;
         }
 
-        visited[x][y] = true;
-
-        for (int[] move : new int[][]{{-1, 0}, {1, 0}, {0, 1}, {0, -1}}) {
-
-                int xPos = x + move[0], yPos = y + move[1];
-
-                if (xPos >= 0 && xPos < board.length && yPos >= 0 && yPos < board[0].length &&
-                            !visited[xPos][yPos] && board[xPos][yPos] == word.charAt(pos)) {
-                    if (dfs(board, visited, word, xPos, yPos, pos + 1)) {
-                        return true;
-                    }
-                }
+        if (px < 0 || px >= board.length || py < 0 || py >= board[0].length || visited[px][py] || word.charAt(pos) != board[px][py]) {
+            return false;
         }
 
-        visited[x][y] = false;
+        visited[px][py] = true;
+        for (int[] move : new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}}) {
+            if (dfs(board, px + move[0], py + move[1], word, pos + 1, visited)) {
+                return true;
+            }
+        }
+        visited[px][py] = false;
 
         return false;
     }
 
     public boolean exist(char[][] board, String word) {
-
         if (board.length == 0 || board[0].length == 0) {
-            return word.length() == 0;
-        } else if (word.length() == 0) {
+            return false;
+        } else if (word.isEmpty()) {
             return true;
         }
 
@@ -50,11 +44,8 @@ public class _79_Word_Search {
 
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (board[i][j] == word.charAt(0)) {
-
-                    if (dfs(board, visited, word, i, j, 1)) {
-                        return true;
-                    }
+                if (dfs(board, i, j, word, 0, visited)) {
+                    return true;
                 }
             }
         }

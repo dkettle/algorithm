@@ -28,8 +28,8 @@ public class _Nine_Grid_Equals_4 {
      * 可填数字为0-100之间，通过程序求出ABCDEFGH所有解。​
      *
      * a + b = 13 => b <= 13
-     * b - d * g = 4 => b >= 4, 1 <= d <= 9
-     * 9 - e - h = 4 => e <= 5
+     * b - d * g = 4 => b >= 4, 1 <= d, g <= 9
+     * 9 - e - h = 4 => e, h <= 5
      */
 
     // 只要确认了B、D、E，其余A、C、F、G、H就可以通过运算算出来
@@ -37,7 +37,7 @@ public class _Nine_Grid_Equals_4 {
 
         List<List<Integer>> res = new ArrayList<>();
 
-        for (int b = 9; b <= 13; b++) {
+        for (int b = 4; b <= 13; b++) {
             for (int d = 1; d <= 9; d++) {
                 for (int e = 0; e <= 5; e++) {
 
@@ -62,8 +62,7 @@ public class _Nine_Grid_Equals_4 {
     }
 
     public static void main(String[] args) {
-        long start = System.nanoTime();
-        new _Nine_Grid_Equals_4().solveNineGrid();
-        System.out.println(System.nanoTime() - start);
+        List<List<Integer>> res = new _Nine_Grid_Equals_4().solveNineGrid();
+        System.out.println(res);
     }
 }

@@ -16,23 +16,18 @@ import com.baidu.algorithm.datastructure.TreeNode;
 public class _95_Unique_Binary_Search_Trees_II {
 
     private List<TreeNode> generateTrees(int start, int end) {
-
         List<TreeNode> res = new ArrayList<>();
-
         if (start > end) {
             res.add(null);
         } else {
             for (int i = start; i <= end; i++) {
-
                 List<TreeNode> lChild = generateTrees(start, i - 1);
                 List<TreeNode> rChild = generateTrees(i + 1, end);
-
-                for (TreeNode left : lChild) {
-                    for (TreeNode right : rChild) {
-
+                for (TreeNode l : lChild) {
+                    for (TreeNode r : rChild) {
                         TreeNode node = new TreeNode(i);
-                        node.left = left;
-                        node.right = right;
+                        node.left = l;
+                        node.right = r;
 
                         res.add(node);
                     }
@@ -44,7 +39,6 @@ public class _95_Unique_Binary_Search_Trees_II {
     }
 
     public List<TreeNode> generateTrees(int n) {
-
         if (n < 1) {
             return new ArrayList<>();
         }

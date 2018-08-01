@@ -37,6 +37,6 @@ public class _84_Largest_Rectangle_in_Histogram {
     }
 
     public static void main(String[] args) {
-        new _84_Largest_Rectangle_in_Histogram().largestRectangleArea(new int[]{2, 1, 2});
+        new _84_Largest_Rectangle_in_Histogram().largestRectangleArea(new int[]{2, 1, 5, 6, 2, 3});
     }
 }

@@ -20,7 +20,7 @@ public class _66_Plus_One {
             i--;
         }
 
-        if (i < 0 && carry > 0) {
+        if (carry > 0) {
             int[] arr = new int[n + 1];
             arr[0] = carry;
             for(i = 1; i <= n; i++) {

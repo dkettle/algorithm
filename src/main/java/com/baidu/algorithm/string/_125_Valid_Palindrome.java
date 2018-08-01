@@ -12,42 +12,20 @@ import com.baidu.algorithm.annotation.Note;
  */
 public class _125_Valid_Palindrome {
 
-    // Character.isLetterOrDigit
-    private boolean isAlphabetic(char c) {
-
-        if ('A' <= c && c <= 'Z') {
-            return true;
-        }
-
-        if ('a' <= c && c <= 'z') {
-            return true;
-        }
-
-        if ('0' <= c && c <= '9') {
-            return true;
-        }
-
-        return false;
-    }
-
     public boolean isPalindrome(String s) {
-
-        if (s == null || s.length() <= 1) {
-            return true;
-        }
-
-        int i = 0, j = s.length() - 1;
-        while (i < j) {
-
-            while (i < j && !isAlphabetic(s.charAt(i))) {
+        char[] chs = s.toCharArray();
+        for(int i = 0, j = chs.length - 1; i < j;) {
+            if(!Character.isLetterOrDigit(chs[i])) {
                 i++;
+                continue;
             }
 
-            while (i < j && !isAlphabetic(s.charAt(j))) {
+            if(!Character.isLetterOrDigit(chs[j])) {
                 j--;
+                continue;
             }
 
-            if (i < j && s.charAt(i) != s.charAt(j) && Math.abs(s.charAt(i) - s.charAt(j)) != 32) {
+            if(Character.toLowerCase(chs[i]) != Character.toLowerCase(chs[j])) {
                 return false;
             }
 

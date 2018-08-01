@@ -13,51 +13,6 @@ import java.util.Set;
  */
 public class _36_Valid_Sudoku {
 
-    private boolean valid(char ch, Set<Character> set) {
-
-        if (Character.isDigit(ch) && set.contains(ch)) {
-            return false;
-        }
-
-        set.add(ch);
-        return true;
-    }
-
-    public boolean isValidSudoku(char[][] board) {
-
-        if (board == null || board.length != 9 || board[0].length != 9) {
-            return false;
-        }
-
-        for (int i = 0; i < 9; i++) {
-            Set<Character> rowSet = new HashSet<>();
-            Set<Character> colSet = new HashSet<>();
-
-            for (int j = 0; j < 9; j++) {
-
-                if (!valid(board[i][j], rowSet) || !valid(board[j][i], colSet)) {
-                    return false;
-                }
-            }
-        }
-
-        for (int i = 0; i < 9; i += 3) {
-            for (int j = 0; j < 9; j += 3) {
-
-                Set<Character> set = new HashSet<>();
-                for (int m = i; m < i + 3; m++) {
-                    for (int n = j; n < j + 3; n++) {
-                        if (!valid(board[m][n], set)) {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-
-        return true;
-    }
-
     public static void main(String[] args) {
 
         char[][] board = {
@@ -73,5 +28,45 @@ public class _36_Valid_Sudoku {
         };
 
         new _36_Valid_Sudoku().isValidSudoku(board);
+    }
+
+    private boolean isValid(char c, Set<Character> st) {
+        if (Character.isDigit(c) && st.contains(c)) {
+            return false;
+        } else {
+            st.add(c);
+            return true;
+        }
+    }
+
+    public boolean isValidSudoku(char[][] board) {
+        if (board == null || board.length != 9 || board[0].length != 9) {
+            return false;
+        }
+
+        for (int i = 0; i < 9; i++) {
+            Set<Character> rowSet = new HashSet<>();
+            Set<Character> colSet = new HashSet<>();
+            for (int j = 0; j < 9; j++) {
+                if (!isValid(board[i][j], rowSet) || !isValid(board[j][i], colSet)) {
+                    return false;
+                }
+            }
+        }
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                Set<Character> set = new HashSet<>();
+                for (int m = 0; m < 3; m++) {
+                    for (int n = 0; n < 3; n++) {
+                        if (!isValid(board[i * 3 + m][j * 3 + n], set)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 }

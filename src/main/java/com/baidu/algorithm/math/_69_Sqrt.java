@@ -23,11 +23,9 @@ public class _69_Sqrt {
 
             if (val == mid) {
                 return mid;
-            }
-            else if (val < mid) {
+            } else if (val < mid) {
                 right = mid - 1;
-            }
-            else {
+            } else {
                 left = mid + 1;
             }
         }

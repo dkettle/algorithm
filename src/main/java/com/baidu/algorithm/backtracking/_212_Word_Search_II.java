@@ -15,6 +15,10 @@ import java.util.Set;
  */
 public class _212_Word_Search_II {
 
+    public static void main(String[] args) {
+        new _212_Word_Search_II().findWords(new char[][]{{'a'}}, new String[]{"oath","pea","eat","rain"});
+    }
+
     class TrieNode {
         public boolean isWord;
         public String word;
@@ -26,7 +30,6 @@ public class _212_Word_Search_II {
     }
 
     class Trie {
-
         public TrieNode root;
 
         public Trie() {
@@ -34,7 +37,6 @@ public class _212_Word_Search_II {
         }
 
         public void insert(String word) {
-
             TrieNode cur = root;
             for (int i = 0; i < word.length(); i++) {
                 char c = word.charAt(i);
@@ -50,32 +52,26 @@ public class _212_Word_Search_II {
         }
     }
 
-    private void dfs(char[][] board, boolean[][] visited, Set<String> st, TrieNode node, int x, int y) {
-
+    private void dfs(TrieNode node, char[][] board, int px, int py, boolean[][] visited, Set<String> res) {
         if (node.isWord) {
-            st.add(node.word);
+            res.add(node.word);
         }
 
-        visited[x][y] = true;
-
-        for (int[] mov : new int[][]{{-1, 0}, {1, 0}, {0, 1}, {0, -1}}) {
-            int xPos = x + mov[0], yPos = y + mov[1];
-            if (xPos >= 0 && xPos < board.length && yPos >= 0 && yPos < board[0].length &&
-                    !visited[xPos][yPos]) {
-                char c = board[xPos][yPos];
-                if (node.child[c - 'a'] != null) {
-                    dfs(board, visited, st, node.child[c - 'a'], xPos, yPos);
-                }
-            }
+        if (px < 0 || px >= board.length || py < 0 || py >= board[0].length || visited[px][py] || node.child[board[px][py] - 'a'] == null) {
+            return;
         }
 
-        visited[x][y] = false;
+        visited[px][py] = true;
+        for (int[] mov : new int[][]{{1, 0}, {-1, 0}, {0, -1}, {0, 1}}) {
+            dfs(node.child[board[px][py] - 'a'], board, px + mov[0], py + mov[1], visited, res);
+        }
+        visited[px][py] = false;
     }
 
     public List<String> findWords(char[][] board, String[] words) {
-
+        List<String> res = new ArrayList<>();
         if (board.length == 0 || board[0].length == 0 || words.length == 0) {
-            return new ArrayList<>();
+            return res;
         }
 
         Trie trie = new Trie();
@@ -83,24 +79,13 @@ public class _212_Word_Search_II {
             trie.insert(word);
         }
 
-        int m = board.length, n = board[0].length;
-        boolean[][] visited = new boolean[m][n];
         Set<String> set = new HashSet<>();
-        TrieNode root = trie.root;
-
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                char c = board[i][j];
-                if (root.child[c - 'a'] != null) {
-                    dfs(board, visited, set, root.child[c - 'a'], i, j);
-                }
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                dfs(trie.root, board, i, j, new boolean[board.length][board[0].length], set);
             }
         }
 
         return new ArrayList<>(set);
-    }
-
-    public static void main(String[] args) {
-        new _212_Word_Search_II().findWords(new char[][]{{'a'}}, new String[]{"a"});
     }
 }

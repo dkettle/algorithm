@@ -3,9 +3,7 @@
  */
 package com.baidu.algorithm.bfs;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 /**
  * _127_Word_Ladder
@@ -15,44 +13,42 @@ import java.util.Set;
 public class _127_Word_Ladder {
 
     // bfs
-    public int ladderLength(String beginWord, String endWord, Set<String> wordList) {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
 
-        int res = 0, current = 1, next = 0;
+        Set<String> wordSet = new HashSet<>(wordList);
+
         Queue<String> queue = new LinkedList<>();
         queue.add(beginWord);
 
-        while (!queue.isEmpty()) {
-            String str = queue.remove();
-            if (str.equals(endWord)) {
-                return res + 1;
-            }
+        int level = 1;
+        while(!queue.isEmpty()) {
+            int sz = queue.size();
+            for(int i = 0; i < sz; i++) {
+                String t = queue.remove();
+                if(t.equals(endWord)) {
+                    return level;
+                }
 
-            char[] sArr = str.toCharArray();
-            for (int i = 0; i < sArr.length; i++) {
-                char c = sArr[i];
-                for (char j = 'a'; j <= 'z'; j++) {
-                    if (j == c) {
-                        continue;
+                char[] chars = t.toCharArray();
+                for(int j = 0; j < chars.length; j++) {
+                    char c = chars[j];
+                    for(char k = 'a'; k <= 'z'; k++) {
+                        if(k == c) {
+                            continue;
+                        }
+                        chars[j] = k;
+                        String next = new String(chars);
+                        if(wordSet.contains(next)) {
+                            queue.add(next);
+                            wordSet.remove(next);
+                        }
+                        chars[j] = c;
                     }
-
-                    sArr[i] = j;
-                    String temp = new String(sArr);
-                    if (wordList.contains(temp)) {
-                        wordList.remove(temp);
-                        queue.add(temp);
-                        next++;
-                    }
-                    sArr[i] = c;
                 }
             }
 
-            if (--current == 0) {
-                current = next;
-                next = 0;
-                res++;
-            }
+            level++;
         }
-
 
         return 0;
     }

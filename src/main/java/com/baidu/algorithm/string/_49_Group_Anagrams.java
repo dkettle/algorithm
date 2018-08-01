@@ -3,6 +3,7 @@
  */
 package com.baidu.algorithm.string;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,32 +18,24 @@ import java.util.Map;
 public class _49_Group_Anagrams {
 
     public List<List<String>> groupAnagrams(String[] strs) {
-
-        List<List<String>> res = new ArrayList<>();
         if (strs == null || strs.length == 0) {
-            return res;
+            return new ArrayList<>();
         }
 
-        Map<String, List<String>> mp = new HashMap<>();
+        Map<String, List<String>> anagram = new HashMap<>();
         for (String str : strs) {
             char[] chars = str.toCharArray();
             Arrays.sort(chars);
-            String key = new String(chars);
 
-            if (mp.get(key) != null) {
-                mp.get(key).add(str);
-            }
-            else {
-                List<String> value = new ArrayList<>();
-                value.add(str);
-                mp.put(key, value);
+            String sortStr = String.valueOf(chars);
+            if (anagram.containsKey(sortStr)) {
+                anagram.get(sortStr).add(str);
+            } else {
+                anagram.put(sortStr, new ArrayList<>(Arrays.asList(str)));
             }
         }
 
-        for (Map.Entry<String, List<String>> entry : mp.entrySet()) {
-            res.add(entry.getValue());
-        }
 
-        return res;
+        return new ArrayList<>(anagram.values());
     }
 }

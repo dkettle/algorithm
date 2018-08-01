@@ -12,36 +12,33 @@ import java.util.Collections;
  */
 public class _41_First_Missing_Positive {
 
-    private void swap(int[] num, int x, int y) {
-
-        int temp = num[x];
-        num[x] = num[y];
-        num[y] = temp;
+    public static void main(String[] args) {
+        new _41_First_Missing_Positive().firstMissingPositive(new int[]{3, 4, -1, 1});
     }
 
     public int firstMissingPositive(int[] nums) {
-
         if (nums == null || nums.length == 0) {
             return 1;
         }
 
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] != i + 1 && nums[i] > 0 && nums[i] <= nums.length && nums[i] != nums[nums[i] - 1]) {
-                swap(nums, i, nums[i] - 1);
-                i--;
+        int n = nums.length;
+        for (int i = 0; i < n; ) {
+            if (nums[i] >= 1 && nums[i] <= n && nums[nums[i] - 1] != nums[i]) {
+                int tmp = nums[i], j = nums[i] - 1;
+                nums[i] = nums[j];
+                nums[j] = tmp;
+            } else {
+                i++;
             }
         }
 
-        for (int i = 0; i < nums.length; i++) {
+        for (int i = 0; i < n; i++) {
             if (nums[i] != i + 1) {
                 return i + 1;
             }
         }
 
-        return nums.length + 1;
-    }
-
-    public static void main(String[] args) {
-        new _41_First_Missing_Positive().firstMissingPositive(new int[]{3, 4, -1, 1});
+        return n + 1;
     }
 }
+

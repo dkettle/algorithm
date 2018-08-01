@@ -3,6 +3,9 @@
  */
 package com.baidu.algorithm.string;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * _165_Compare_Version_Numbers
  *
@@ -112,5 +115,8 @@ public class _165_Compare_Version_Numbers {
 
     public static void main(String[] args) {
         new _165_Compare_Version_Numbers().compareVersion1("1", "1.1");
+
+        List<Integer> li = new ArrayList<>();
+        li.add(0, 1);
     }
 }

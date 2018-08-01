@@ -18,16 +18,14 @@ public class _89_Gray_Code {
         List<Integer> res = new ArrayList<>();
         res.add(0);
 
-        if (n > 0) {
-            int shift = 1;
-            for (int i = 0; i < n; i++) {
-                int sz = res.size();
-                for (int j = sz - 1; j >= 0; j--) {
-                    res.add(res.get(j) + shift);
-                }
-
-                shift <<= 1;
+        int shift = 1;
+        for (int i = 0; i < n; i++) {
+            int sz = res.size();
+            for (int j = sz - 1; j >= 0; j--) {
+                res.add(shift + res.get(j));
             }
+
+            shift <<= 1;
         }
 
         return res;

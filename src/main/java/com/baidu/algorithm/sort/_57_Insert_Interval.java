@@ -4,6 +4,7 @@
 package com.baidu.algorithm.sort;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -12,53 +13,6 @@ import java.util.List;
  * @author xuhaoran01
  */
 public class _57_Insert_Interval {
-
-    public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
-
-        List<Interval> res = new ArrayList<>();
-        if (intervals == null || intervals.size() == 0) {
-            res.add(newInterval);
-        }
-        else {
-            int len = intervals.size();
-            if (newInterval.end < intervals.get(0).start) {
-                intervals.add(0, newInterval);
-                res = intervals;
-            }
-            else if (newInterval.start > intervals.get(len - 1).end) {
-                intervals.add(newInterval);
-                res = intervals;
-            }
-            else {
-                int index1 = 0, index2 = 0;
-                while (index1 < len) {
-                    if (newInterval.start <= intervals.get(index1).end) {
-                        index2 = index1;
-                        break;
-                    }
-                    index1++;
-                }
-
-                while (index2 < len) {
-                    if (newInterval.end < intervals.get(index2).start) {
-                        break;
-                    }
-                    index2++;
-                }
-
-                for (int i = 0; i < index1; i++) {
-                    res.add(intervals.get(i));
-                }
-                res.add(new Interval(Math.min(newInterval.start, intervals.get(index1).start),
-                                            Math.max(newInterval.end, intervals.get(index2 - 1).end)));
-                for (int i = index2; i < len; i++) {
-                    res.add(intervals.get(i));
-                }
-            }
-        }
-
-        return res;
-    }
 
     public class Interval {
         int start;
@@ -72,6 +26,48 @@ public class _57_Insert_Interval {
         Interval(int s, int e) {
             start = s;
             end = e;
+        }
+    }
+
+    public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+
+        if (newInterval == null) {
+            return intervals;
+        } else if (intervals == null || intervals.isEmpty()) {
+            return Arrays.asList(newInterval);
+        } else if (newInterval.end < intervals.get(0).start) {
+            intervals.add(0, newInterval);
+            return intervals;
+        } else if (newInterval.start > intervals.get(intervals.size() - 1).end) {
+            intervals.add(newInterval);
+            return intervals;
+        } else {
+            List<Interval> res = new ArrayList<>();
+
+            int i = 0;
+            while (i < intervals.size()) {
+                if (intervals.get(i).end < newInterval.start) {
+                    res.add(intervals.get(i));
+                    i++;
+                } else {
+                    if (intervals.get(i).start > newInterval.end) {
+                        res.add(newInterval);
+                    } else {
+                        int j = i + 1, start = Math.min(newInterval.start, intervals.get(i).start);
+                        while (j < intervals.size() && newInterval.end >= intervals.get(j).start) {
+                            j++;
+                        }
+                        res.add(new Interval(start, Math.max(newInterval.end, intervals.get(j - 1).end)));
+                        i = j;
+                    }
+                    break;
+                }
+            }
+            while (i < intervals.size()) {
+                res.add(intervals.get(i));
+                i++;
+            }
+            return res;
         }
     }
 }

@@ -14,53 +14,53 @@ import com.baidu.algorithm.annotation.Note;
  */
 public class _37_Sudoku_Solver {
 
-    private boolean isValid(char[][] board, int row, int col, char c) {
-
-        for (int i = 0; i < 9; i++) {
-            if (c == board[row][i] || c == board[i][col]) {
-                return false;
-            }
-        }
-
-        int m = row / 3 * 3, n = col / 3 * 3;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (c == board[m + i][n + j]) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    private boolean solveSudoku(char[][] board, int n) {
-
-        if (n == 81) {
-            return true;
-        }
-
-        int row = n / 9, col = n % 9;
-        if (board[row][col] != '.') {
-            return solveSudoku(board, n + 1);
-        } else {
-            for (char c = '1'; c <= '9'; c++) {
-                if (isValid(board, row, col, c)) {
-                    board[row][col] = c;
-                    if (solveSudoku(board, n + 1)) {
-                        return true;
-                    }
-                    board[row][col] = '.';
-                }
-            }
-            return false;
-        }
-    }
-
-    public void solveSudoku(char[][] board) {
-
-        solveSudoku(board, 0);
-    }
+//    private boolean isValid(char[][] board, int row, int col, char c) {
+//
+//        for (int i = 0; i < 9; i++) {
+//            if (c == board[row][i] || c == board[i][col]) {
+//                return false;
+//            }
+//        }
+//
+//        int m = row / 3 * 3, n = col / 3 * 3;
+//        for (int i = 0; i < 3; i++) {
+//            for (int j = 0; j < 3; j++) {
+//                if (c == board[m + i][n + j]) {
+//                    return false;
+//                }
+//            }
+//        }
+//
+//        return true;
+//    }
+//
+//    private boolean solveSudoku(char[][] board, int n) {
+//
+//        if (n == 81) {
+//            return true;
+//        }
+//
+//        int row = n / 9, col = n % 9;
+//        if (board[row][col] != '.') {
+//            return solveSudoku(board, n + 1);
+//        } else {
+//            for (char c = '1'; c <= '9'; c++) {
+//                if (isValid(board, row, col, c)) {
+//                    board[row][col] = c;
+//                    if (solveSudoku(board, n + 1)) {
+//                        return true;
+//                    }
+//                    board[row][col] = '.';
+//                }
+//            }
+//            return false;
+//        }
+//    }
+//
+//    public void solveSudoku(char[][] board) {
+//
+//        solveSudoku(board, 0);
+//    }
 
     @Note(desc = "多维数组拷贝")
     @Note(desc = "print array")
@@ -78,5 +78,53 @@ public class _37_Sudoku_Solver {
         }
 
         Arrays.stream(board).forEach(x -> System.out.println(Arrays.toString(x)));
+    }
+
+    private boolean isValid(char[][] board, int row, int col, char c) {
+        for (int i = 0; i < 9; i++) {
+            if (board[row][i] == c || board[i][col] == c) {
+                return false;
+            }
+        }
+
+        for (int i = row / 3 * 3; i < row / 3 * 3 + 3; i++) {
+            for (int j = col / 3 * 3; j < col / 3 * 3 + 3; j++) {
+                if (board[i][j] == c) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public boolean solveSudoku(char[][] board, int pos) {
+        if (pos == 81) {
+            return true;
+        }
+
+        int row = pos / 9, col = pos % 9;
+        if (board[row][col] != '.') {
+            return solveSudoku(board, pos + 1);
+        } else {
+            for (char c = '1'; c <= '9'; c++) {
+                if (isValid(board, row, col, c)) {
+                    board[row][col] = c;
+                    if (solveSudoku(board, pos + 1)) {
+                        return true;
+                    }
+                    board[row][col] = '.';
+                }
+            }
+            return false;
+        }
+
+    }
+
+    public void solveSudoku(char[][] board) {
+        if (board == null || board.length != 9 || board[0].length != 9) {
+            return;
+        }
+        solveSudoku(board, 0);
     }
 }

@@ -11,7 +11,6 @@ package com.baidu.algorithm.binarysearch;
 public class _33_Search_in_Rotated_Sorted_Array {
 
     private int search(int[] nums, int start, int end, int target) {
-
         if (start > end) {
             return -1;
         }
@@ -22,25 +21,26 @@ public class _33_Search_in_Rotated_Sorted_Array {
         }
         else if (nums[mid] >= nums[start]) {
             if (target >= nums[start] && target < nums[mid]) {
-                return search(nums, start, mid - 1, target);
+                end = mid - 1;
             }
             else {
-                return search(nums, mid + 1, end, target);
+                start = mid + 1;
             }
         }
         else {
-            if (target >= nums[mid] && target <= nums[end]) {
-                return search(nums, mid + 1, end, target);
+            if (target > nums[mid] && target <= nums[end]) {
+                start = mid + 1;
             }
             else {
-                return search(nums, start, mid - 1, target);
+                end = mid - 1;
             }
         }
+
+       return search(nums, start, end, target);
     }
 
     public int search(int[] nums, int target) {
-
-        if (nums == null) {
+        if (nums == null || nums.length <= 0) {
             return -1;
         }
 

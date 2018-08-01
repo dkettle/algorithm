@@ -41,6 +41,17 @@ public class _94_Binary_Tree_Inorder_Traversal {
         return res;
     }
 
+    // recursive
+    public List<Integer> inorderTraversal2(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root != null) {
+            res.addAll(inorderTraversal(root.left));
+            res.add(root.val);
+            res.addAll(inorderTraversal(root.right));
+        }
+
+        return res;
+    }
     // Morris Traversal
     @Note(desc = "Morris Traversal in order")
     public List<Integer> inorderTraversal(TreeNode root) {

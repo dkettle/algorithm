@@ -8,25 +8,21 @@ package com.baidu.algorithm.twopointer;
  *
  * @author xuhaoran01
  */
-public class _80_Remove_Duplicates_from_Sorted_Array_II {
+public class    _80_Remove_Duplicates_from_Sorted_Array_II {
 
     public int removeDuplicates(int[] nums) {
-
-        if (nums.length == 0) {
-            return 0;
+        if (nums.length <= 2) {
+            return nums.length;
         }
 
-        int i = 0, j = 1;
-
+        int i = 1, j = 2;
         while (j < nums.length) {
-            if (nums[j] > nums[i] || i == 0 || nums[i] > nums[i - 1]) {
+            if (nums[j] > nums[i - 1]) {
                 nums[i + 1] = nums[j];
                 i++;
             }
-
             j++;
         }
-
         return i + 1;
     }
 }

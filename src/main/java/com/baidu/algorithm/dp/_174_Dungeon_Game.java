@@ -26,8 +26,7 @@ public class _174_Dungeon_Game {
 
         for (int i = m - 2; i >= 0; i--) {
             for (int j = n - 2; j >= 0; j--) {
-                dp[i][j] = Math.min(Math.max(dp[i + 1][j] - dungeon[i][j], 1),
-                        Math.max(dp[i][j + 1] - dungeon[i][j], 1));
+                dp[i][j] = Math.max(Math.min(dp[i + 1][j], dp[i][j + 1]) - dungeon[i][j], 1);
             }
         }
 

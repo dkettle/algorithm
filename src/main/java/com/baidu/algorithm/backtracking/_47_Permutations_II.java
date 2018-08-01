@@ -14,40 +14,39 @@ import java.util.List;
  */
 public class _47_Permutations_II {
 
-    private void permute(List<List<Integer>> res, List<Integer> oneRes, boolean[] visited, int[] nums) {
+    private void permute(List<List<Integer>> res, List<Integer> curRes, int[] nums, int pos, boolean[] visited) {
+        if (pos == nums.length) {
+            res.add(new ArrayList<>(curRes));
+        } else {
+            for (int i = 0; i < nums.length; i++) {
+                if (visited[i]) {
+                    continue;
+                }
 
-        if (oneRes.size() == nums.length) {
-            res.add(new ArrayList<>(oneRes));
-        }
+                if (i > 0 && nums[i] == nums[i - 1] && !visited[i - 1]) {
+                    continue;
+                }
 
-        for (int i = 0; i < nums.length; i++) {
+                visited[i] = true;
+                curRes.add(nums[i]);
 
-            if (visited[i]) {
-                continue;
+                permute(res, curRes, nums, pos + 1, visited);
+
+                curRes.remove(curRes.size() - 1);
+                visited[i] = false;
             }
-
-            if (i > 0 && nums[i] == nums[i - 1] && !visited[i - 1]) {
-                continue;
-            }
-
-            visited[i] = true;
-            oneRes.add(nums[i]);
-
-            permute(res, oneRes, visited, nums);
-
-            oneRes.remove(oneRes.size() - 1);
-            visited[i] = false;
         }
     }
 
     public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (nums == null || nums.length == 0) {
+            return res;
+        }
 
         Arrays.sort(nums);
-
-        List<List<Integer>> res = new ArrayList<>();
         boolean[] visited = new boolean[nums.length];
-
-        permute(res, new ArrayList<>(), visited, nums);
+        permute(res, new ArrayList<>(), nums, 0, visited);
 
         return res;
     }
