@@ -16,42 +16,55 @@ import com.baidu.algorithm.annotation.Note;
  */
 public class _149_Max_Points_on_a_Line {
 
-    @Note(desc = "map中Double key 区分0.0 和 -0.0, 第二层循环必须从j = 0开始")
-    public int maxPoints(Point[] points) {
+    private int getGcd(int x, int y) {
+        if (x > y) {
+            return getGcd(y, x);
+        } else if (x == 0) {
+            return y;
+        } else {
+            return getGcd(y % x, x);
+        }
+    }
 
-        if (points == null) {
+    public int maxPoints(Point[] points) {
+        if (points == null || points.length == 0) {
             return 0;
         }
 
         int res = 0;
-        for (int i = 0; i < points.length; i++) {
-            Map<Double, Integer> mp = new HashMap<>();
+        for (Point p1 : points) {
+            Map<String, Integer> map = new HashMap<>();
             int dup = 0;
-
-            for (int j = 0; j < points.length; j++) {
-
-                if (points[j].x == points[i].x && points[j].y == points[i].y) {
+            for (Point p2 : points) {
+                if (p1.x == p2.x && p1.y == p2.y) {
                     dup++;
-                } else if (points[j].x == points[i].x) {
-                    mp.put(Double.MAX_VALUE, mp.getOrDefault(Double.MAX_VALUE, 0) + 1);
+                } else if (p1.x == p2.x) {
+                    map.put("infinite", map.getOrDefault("infinite", 0) + 1);
                 } else {
-                    double val = (double) (points[j].y - points[i].y) / (points[j].x - points[i].x);
-                    mp.put(val, mp.getOrDefault(val, 0) + 1);
+                    int xDiff = Math.abs(p2.x - p1.x);
+                    int yDiff = Math.abs(p2.y - p1.y);
+                    int gcd = getGcd(xDiff, yDiff);
+                    String sign = (((p2.x - p1.x) ^ (p2.y - p1.y)) & (1 << 31)) != 0 ? "-" : "+";
+
+                    xDiff /= gcd;
+                    yDiff /= gcd;
+
+                    String key = sign + String.valueOf(xDiff) + "-" + String.valueOf(yDiff);
+                    map.put(key, map.getOrDefault(key, 0) + 1);
                 }
             }
 
             res = Math.max(res, dup);
-            for (Map.Entry<Double, Integer> entry : mp.entrySet()) {
-                res = Math.max(res, entry.getValue() + dup);
+            for (int times : map.values()) {
+                res = Math.max(res, dup + times);
             }
-
         }
 
         return res;
     }
 
     public static void main(String[] args) {
-        Point[] points = {new Point(2, 3), new Point(3, 3), new Point(-5, 3)};
+        Point[] points = {new Point(1, 1), new Point(2, 2), new Point(-3, 3)};
         new _149_Max_Points_on_a_Line().maxPoints(points);
     }
 }

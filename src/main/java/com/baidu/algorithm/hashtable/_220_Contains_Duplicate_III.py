@@ -16,13 +16,13 @@ class Solution(object):
             key = nums[i] / w
             if key in d:
                 return True
-            if key - 1 in d and abs(nums[i] - d.get(key - 1)) < w:
+            if key - 1 in d and abs(nums[i] - nums[d.get(key - 1)]) < w:
                 return True
-            if key + 1 in d and abs(nums[i] - d.get(key + 1)) < w:
+            if key + 1 in d and abs(nums[i] - nums[d.get(key + 1)]) < w:
                 return True
-            d[key] = nums[i]
+            d[key] = i
 
-            if i >= k:
+            if i >= k and d[nums[i - k] / w] == i - k:
                 del d[nums[i - k] / w]
 
         return False

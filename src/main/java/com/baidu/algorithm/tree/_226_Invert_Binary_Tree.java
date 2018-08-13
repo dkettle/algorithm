@@ -18,10 +18,11 @@ public class _226_Invert_Binary_Tree {
             return null;
         }
 
-        TreeNode node = new TreeNode(root.val);
-        node.left = invertTree(root.right);
-        node.right = invertTree(root.left);
+        TreeNode node = root.left;
 
-        return node;
+        root.left = invertTree(root.right);
+        root.right = invertTree(node);
+
+        return root;
     }
 }

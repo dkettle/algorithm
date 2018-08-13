@@ -9,6 +9,8 @@ package com.baidu.algorithm.dp;
  * @author xuhaoran01
  */
 public class _300_Longest_Increasing_Subsequence {
+    // (1) if x is larger than all tails, append it, increase the size by 1
+    // (2) if tails[i-1] < x <= tails[i], update tails[i]
 
     public int lengthOfLIS(int[] nums) {
         if (nums == null || nums.length == 0) {
