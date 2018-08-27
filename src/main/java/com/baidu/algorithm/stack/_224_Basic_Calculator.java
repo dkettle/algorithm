@@ -13,49 +13,42 @@ import java.util.Stack;
 public class _224_Basic_Calculator {
 
     public int calculate(String s) {
+        int res = 0;
+        if (s != null && !s.isEmpty()) {
+            Stack<Integer> st = new Stack<>();
+            int sign = 1, tmp = 0;
 
-        if (s == null || s.length() == 0) {
-            return 0;
-        }
-
-        s = s.replaceAll(" +", "");
-        int len = s.length(), res = 0;
-
-        Stack<Integer> st = new Stack<>();
-        int sign = 1, temp = 0;
-
-
-        for (int i = 0; i < len; i++) {
-            char c = s.charAt(i);
-            if (c == '+') {
-                res += sign * temp;
-                temp = 0;
-                sign = 1;
+            for (char c : s.toCharArray()) {
+                if (c == ' ') {
+                    continue;
+                } else if (c == '(') {
+                    st.push(res);
+                    st.push(sign);
+                    res = 0;
+                    sign = 1;
+                } else if (c == ')') {
+                    res += sign * tmp;
+                    tmp = 0;
+                    res *= st.pop();
+                    res += st.pop();
+                } else if (c == '+') {
+                    res += sign * tmp;
+                    tmp = 0;
+                    sign = 1;
+                } else if (c == '-') {
+                    res += sign * tmp;
+                    tmp = 0;
+                    sign = -1;
+                } else if (Character.isDigit(c)) {
+                    tmp = tmp * 10 + c - '0';
+                } else {
+                    return 0; // invalid input
+                }
             }
-            else if (c == '-') {
-                res += sign * temp;
-                temp = 0;
-                sign = -1;
-            }
-            else if (c == '(') {
-                st.push(res);
-                st.push(sign);
-                sign = 1;
-                res = 0;
-            }
-            else if (c == ')') {
-                res += sign * temp;
-                temp = 0;
-                res *= st.pop();
-                res += st.pop();
-            }
-            else {
-                temp = temp * 10 + c - '0';
-            }
-        }
 
-        if (temp > 0) {
-            res += sign * temp;
+            if (tmp > 0) {
+                res += tmp * sign;
+            }
         }
 
         return res;

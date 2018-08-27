@@ -13,44 +13,44 @@ import java.util.Stack;
 public class _227_Basic_Calculator_II {
 
     public int calculate(String s) {
-
-        if (s == null || s.length() == 0) {
+        if (s == null || s.isEmpty()) {
             return 0;
         }
 
         s = s.replaceAll(" +", "");
+        int res = 0, prev = 0, i = 0, n = s.length();
         char sign = '+';
-        int preVal = 0, res = 0, i = 0;
-
-        while (i < s.length()) {
-
-            int curVal = 0;
-            while (i < s.length() && s.charAt(i) >= '0' && s.charAt(i) <= '9') {
-                curVal = curVal * 10 + s.charAt(i) - '0';
+        while (i < n) {
+            int cur = 0;
+            while (i < n && Character.isDigit(s.charAt(i))) {
+                cur = cur * 10 + s.charAt(i) - '0';
                 i++;
             }
 
-            if (sign == '+') {
-                res += preVal;
-                preVal = curVal;
-            }
-            else if (sign == '-') {
-                res += preVal;
-                preVal = -curVal;
-            }
-            else if (sign == '*') {
-                preVal *= curVal;
-            }
-            else {
-                preVal /= curVal;
+            switch (sign) {
+                case '+':
+                    res += prev;
+                    prev = cur;
+                    break;
+                case '-':
+                    res += prev;
+                    prev = -cur;
+                    break;
+                case '*':
+                    prev *= cur;
+                    break;
+                case '/':
+                    prev /= cur;
+                    break;
+                default:
+                    return 0; // invalid
             }
 
-            if (i < s.length()) {
-                sign = s.charAt(i);
-                i++;
+            if (i < n) {
+                sign = s.charAt(i++);
             }
         }
 
-        return res + preVal;
+        return res + prev;
     }
 }
