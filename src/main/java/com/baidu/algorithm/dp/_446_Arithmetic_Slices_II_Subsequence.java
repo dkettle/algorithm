@@ -13,28 +13,28 @@ import java.util.Map;
  */
 public class _446_Arithmetic_Slices_II_Subsequence {
 
-    // T(i, d) denotes the total number of arithmetic subsequence slices ending at index i with difference d.
-    @SuppressWarnings("unchecked")
+    // T(i, d) denotes the total number of arithmetic subsequence slices (at least size 2) ending at index i with difference d.
     public int numberOfArithmeticSlices(int[] A) {
+        if (A == null || A.length < 3) {
+            return 0;
+        }
 
-        int res = 0;
-        Map<Integer, Integer>[] maps = new HashMap[A.length];
-
-        for (int i = 0; i < A.length; i++) {
+        int n = A.length, res = 0;
+        Map<Integer, Integer>[] maps = new HashMap[n];
+        for (int i = 0; i < n; i++) {
             maps[i] = new HashMap<>();
-
             for (int j = 0; j < i; j++) {
-                long d = (long) A[i] - A[j];
-                if (d > Integer.MAX_VALUE || d < Integer.MIN_VALUE) {
+                long diff = (long) A[i] - A[j];
+                if (diff > Integer.MAX_VALUE || diff < Integer.MIN_VALUE) {
                     continue;
                 }
 
-                int diff = (int) d;
-                int x = maps[j].getOrDefault(diff, 0);
-                int y = maps[i].getOrDefault(diff, 0);
+                int d = (int) diff;
+                int x = maps[j].getOrDefault(d, 0);
 
                 res += x;
-                maps[i].put(diff, y + x + 1);
+
+                maps[i].put(d, maps[i].getOrDefault(d, 0) + x + 1);
             }
         }
 

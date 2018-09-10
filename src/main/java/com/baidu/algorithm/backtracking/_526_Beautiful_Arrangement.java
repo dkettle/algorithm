@@ -13,33 +13,33 @@ import java.util.List;
  */
 public class _526_Beautiful_Arrangement {
 
-    int count = 0;
+    private int res;
+    private boolean[] used;
 
-    private void dfs(List<Integer> nums, int index) {
-
-        if (nums.size() == 0) {
-            count++;
-        }
-
-        for (int i = 0; i < nums.size(); i++) {
-            int num = nums.get(i);
-            if (num % index == 0 || index % num == 0) {
-                nums.remove(i);
-                dfs(nums, index + 1);
-                nums.add(i, num);
+    private void dfs(int pos) {
+        if (pos == 0) {
+            res++;
+        } else {
+            for (int i = 1; i < used.length; i++) {
+                if (!used[i] && (i % pos == 0 || pos % i == 0)) {
+                    used[i] = true;
+                    dfs(pos - 1);
+                    used[i] = false;
+                }
             }
         }
     }
 
     public int countArrangement(int N) {
+        res = 0;
+        used = new boolean[N + 1];
 
-        List<Integer> nums = new ArrayList<>(N);
-        for (int i = 1; i <= N; i++) {
-            nums.add(i);
-        }
+        dfs(N);
 
-        dfs(nums, 1);
+        return res;
+    }
 
-        return count;
+    public static void main(String[] args) {
+        new _526_Beautiful_Arrangement().countArrangement(2);
     }
 }

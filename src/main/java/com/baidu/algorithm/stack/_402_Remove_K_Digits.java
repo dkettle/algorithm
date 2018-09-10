@@ -6,6 +6,7 @@ package com.baidu.algorithm.stack;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Stack;
 
 /**
  * _402_Remove_K_Digits
@@ -14,40 +15,43 @@ import java.util.Date;
  */
 public class _402_Remove_K_Digits {
 
-    // greedy
     public String removeKdigits(String num, int k) {
-
-        if (num == null || num.length() == k) {
+        if (num.length() == k) {
             return "0";
         }
 
-        int len = num.length(), remain = len - k, top = 0;
-        char[] st = new char[len];
-
-        for (char c : num.toCharArray()) {
-
-            while (top > 0 && c < st[top - 1] && k > 0) {
-                top--;
+        Stack<Character> st = new Stack<>();
+        int i = 0;
+        while (i < num.length()) {
+            char c = num.charAt(i);
+            if (k > 0 && !st.isEmpty() && st.peek() > c) {
+                st.pop();
                 k--;
+            } else {
+                st.push(c);
+                i++;
             }
-            st[top++] = c;
         }
 
-        int index = 0;
-        while (index < remain && st[index] == '0') {
-            index++;
+        while (k > 0) {
+            st.pop();
+            k--;
         }
 
-        return index == remain ? "0" : new String(st, index, remain - index);
+        StringBuilder sb = new StringBuilder();
+        while (!st.isEmpty()) {
+            sb.append(st.pop());
+        }
+
+        while (sb.length() > 1 && sb.charAt(sb.length() - 1) == '0') {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+
+        return sb.reverse().toString();
     }
 
     public static void main(String[] args) {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date()); // Now use today date.
-        c.add(Calendar.DATE, 5); // Adding 5 days
-        String output = sdf.format(c.getTime());
-        System.out.println(output);
+        new _402_Remove_K_Digits().removeKdigits("1432219", 3);
     }
 }

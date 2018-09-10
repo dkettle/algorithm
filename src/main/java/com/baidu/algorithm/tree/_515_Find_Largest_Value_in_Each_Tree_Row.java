@@ -18,32 +18,25 @@ import com.baidu.algorithm.datastructure.TreeNode;
 public class _515_Find_Largest_Value_in_Each_Tree_Row {
 
     public List<Integer> largestValues(TreeNode root) {
-
         List<Integer> res = new ArrayList<>();
-
-        if (root == null) {
-            return res;
-        }
-
         Queue<TreeNode> queue = new LinkedList<>();
         queue.add(root);
 
         while (!queue.isEmpty()) {
-
-            int sz = queue.size(), val = Integer.MIN_VALUE;
+            int sz = queue.size();
+            long cur = Long.MIN_VALUE;
             for (int i = 0; i < sz; i++) {
-                TreeNode cur = queue.poll();
-                val = Math.max(val, cur.val);
-
-                if (cur.left != null) {
-                    queue.offer(cur.left);
-                }
-                if (cur.right != null) {
-                    queue.offer(cur.right);
+                TreeNode node = queue.remove();
+                if (node != null) {
+                    cur = Math.max(cur, node.val);
+                    queue.add(node.left);
+                    queue.add(node.right);
                 }
             }
 
-            res.add(val);
+            if (cur != Long.MIN_VALUE) {
+                res.add((int) cur);
+            }
         }
 
         return res;

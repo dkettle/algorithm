@@ -19,81 +19,130 @@ import java.util.Set;
  */
 public class _355_Design_Twitter {
 
-    public static void main(String[] args) {
 
-        Twitter twitter = new Twitter();
+}
 
-        twitter.postTweet(1, 5);
-        twitter.postTweet(1, 3);
-        twitter.getNewsFeed(1);
+class Twitter {
+
+    private Map<Integer, User> userMap;
+
+    /**
+     * Initialize your data structure here.
+     */
+    public Twitter() {
+        userMap = new HashMap<>();
     }
 
     /**
-     * Twitter
-     *
-     * @author xuhaoran01
+     * Compose a new tweet.
      */
-    public static class Twitter {
-
-        // user, follow
-        private Map<Integer, Set<Integer>> followMap = new HashMap<>();
-
-        // user, tweets
-        private Map<Integer, LinkedList<Pair<Integer, Long>>> tweetMap = new HashMap<>();
-
-        private long tweetCnts = 0;
-
-        /** Initialize your data structure here. */
-        public Twitter() {
-
+    public void postTweet(int userId, int tweetId) {
+        if (!userMap.containsKey(userId)) {
+            userMap.put(userId, new User(userId));
         }
 
-        /** Compose a new tweet. */
-        public void postTweet(int userId, int tweetId) {
+        userMap.get(userId).postTweet(tweetId);
+    }
 
-            LinkedList<Pair<Integer, Long>> userTweets = tweetMap.getOrDefault(userId, new LinkedList<>());
-            userTweets.offer(new Pair<>(tweetId, tweetCnts++));
-            if (userTweets.size() > 10) {
-                userTweets.poll();
+    /**
+     * Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent.
+     */
+    public List<Integer> getNewsFeed(int userId) {
+
+        if (!userMap.containsKey(userId)) {
+            return new ArrayList<>();
+        }
+
+        return userMap.get(userId).getNewsFeed();
+    }
+
+    /**
+     * Follower follows a followee. If the operation is invalid, it should be a no-op.
+     */
+    public void follow(int followerId, int followeeId) {
+        if (!userMap.containsKey(followerId)) {
+            userMap.put(followerId, new User(followerId));
+        }
+
+        if (!userMap.containsKey(followeeId)) {
+            userMap.put(followeeId, new User(followeeId));
+        }
+
+        userMap.get(followerId).follow(userMap.get(followeeId));
+    }
+
+    /**
+     * Follower unfollows a followee. If the operation is invalid, it should be a no-op.
+     */
+    public void unfollow(int followerId, int followeeId) {
+        if (!userMap.containsKey(followerId) || !userMap.containsKey(followerId) || followerId == followeeId) {
+            return;
+        }
+
+        userMap.get(followerId).unfollow(userMap.get(followeeId));
+    }
+}
+
+class Twit {
+    private static int time = 0;
+
+    public int id;
+    public int pubTime;
+    public Twit next;
+
+    public Twit(int id) {
+        this.id = id;
+        pubTime = time++;
+        next = null;
+    }
+}
+
+class User {
+    public int id;
+    public Twit twit;
+    public Set<User> follower;
+
+    public User(int id) {
+        this.id = id;
+        twit = null;
+
+        follower = new HashSet<>();
+        follow(this);
+    }
+
+    public void follow(User followerId) {
+        follower.add(followerId);
+    }
+
+    public void unfollow(User followerId) {
+        follower.remove(followerId);
+    }
+
+    public void postTweet(int tweetId) {
+        Twit t = new Twit(tweetId);
+        t.next = twit;
+        twit = t;
+    }
+
+    public List<Integer> getNewsFeed() {
+        List<Integer> res = new ArrayList<>();
+
+        PriorityQueue<Twit> queue = new PriorityQueue<>((x, y) -> y.pubTime - x.pubTime);
+        for (User u : follower) {
+            if (u.twit != null) {
+                queue.add(u.twit);
             }
-
-            tweetMap.put(userId, userTweets);
         }
 
-        /** Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent. */
-        public List<Integer> getNewsFeed(int userId) {
+        while (!queue.isEmpty() && res.size() < 10) {
+            Twit t = queue.remove();
+            res.add(t.id);
 
-            PriorityQueue<Pair<Integer, Long>> pq = new PriorityQueue<>((x, y) -> (int)(y.getValue() - x.getValue()));
-            Set<Integer> follows = followMap.getOrDefault(userId, new HashSet<>());
-            follows.add(userId);
-
-            follows.stream().forEach(x -> tweetMap.getOrDefault(x, new LinkedList<>()).stream().forEach(pq::add));
-
-            List<Integer> res = new ArrayList<>(10);
-
-            while (res.size() < 10 && !pq.isEmpty()) {
-                res.add(pq.poll().getKey());
+            if (t.next != null) {
+                queue.add(t.next);
             }
-
-            return res;
         }
 
-        /** Follower follows a followee. If the operation is invalid, it should be a no-op. */
-        public void follow(int followerId, int followeeId) {
-
-            Set<Integer> userFollow = followMap.getOrDefault(followerId, new HashSet<>());
-            userFollow.add(followeeId);
-
-            followMap.put(followerId, userFollow);
-        }
-
-        /** Follower unfollows a followee. If the operation is invalid, it should be a no-op. */
-        public void unfollow(int followerId, int followeeId) {
-
-            Set<Integer> userFollow = followMap.getOrDefault(followerId, new HashSet<>());
-            userFollow.remove(followeeId);
-
-            followMap.put(followerId, userFollow);
-        }
+        return res;
     }
 }
