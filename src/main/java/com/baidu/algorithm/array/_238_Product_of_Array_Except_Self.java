@@ -13,22 +13,22 @@ import java.util.Arrays;
 public class _238_Product_of_Array_Except_Self {
 
     public int[] productExceptSelf(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return new int[0];
+        }
 
         int n = nums.length;
         int[] res = new int[n];
 
         res[0] = 1;
-
-        int temp = 1;
         for (int i = 1; i < n; i++) {
-            temp *= nums[i - 1];
-            res[i] = temp;
+            res[i] = res[i - 1] * nums[i - 1];
         }
 
-        temp = 1;
-        for (int i = n - 2; i >= 0; i--) {
-            temp *= nums[i + 1];
-            res[i] *= temp;
+        int rightProd = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            res[i] *= rightProd;
+            rightProd *= nums[i];
         }
 
         return res;
